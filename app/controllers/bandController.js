@@ -1,10 +1,10 @@
-const { User, Band } = require('../models/index');
+const { User, Band, Tune, Instrument, Style, Mood } = require('../models/index');
 
 const bandController = {
 
     getAll: async (req, res) => {
         try {
-            const bands = await Band.findAll({ include: User });
+            const bands = await Band.findAll();
             res.status(200).json(bands);
         } catch(error) {
             res.status(500).json({ message: "Erreur interne du serveur"});
@@ -15,7 +15,16 @@ const bandController = {
         try {
             const id = req.params.id;
             const band = await Band.findByPk(id, {
-                include: User
+                include: [
+                    {
+                        model: User,
+                        attributes: ['id', 'username', 'mail', 'avatar_path'],
+                        through: {
+                            attributes: []
+                        }
+                    },
+                    Tune
+                ]
             });
             
             if (!band)
@@ -96,7 +105,32 @@ const bandController = {
         } catch(error) {
             res.status(500).json({ message: "Erreur interne du serveur"});
         } 
-    }
+    },
+
+    getAllTunesOfABand: async (req, res) => {
+        const band_id = req.params.id;
+        try {
+            const tunesOfABand = await Tune.findAll({
+                where: {
+                    band_id
+                },
+                include : [
+                    {
+                        model: Instrument,
+                        as: 'not_needed_instruments',
+                        through: { attributes : [] }
+                    },
+                    Style,
+                    Mood
+                ]
+            })
+            if (tunesOfABand.length === 0)
+                return res.status(404).json({ message: `Le groupe avec l'id ${band_id} n'a pas de morceaux.`})
+            res.status(200).json(tunesOfABand);
+        } catch(error) {
+            res.status(500).json({ message: "Erreur interne du serveur"});
+        }
+    },
 }
 
 module.exports = bandController;

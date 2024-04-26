@@ -1,4 +1,4 @@
-const { Instrument, User } = require('../models/index');
+const { Instrument, User, Tune } = require('../models/index');
 
 const instrumentController = {
 
@@ -93,6 +93,34 @@ const instrumentController = {
             const userToEdit = await User.findByPk(user_id);
             const instrumentToEdit = await Instrument.findByPk(instrument_id);
             instrumentToEdit.removeUser(userToEdit);
+            
+            res.status(200).json({ message: "Bien effectué"});
+        } catch(error) {
+            res.status(500).json({ message: "Erreur interne du serveur"});
+        }
+    },
+
+    addTuneNotNeedingIt : async (req, res) => {
+        const instrument_id = req.params.id;
+        const { tune_id } = req.body;
+        try {
+            const tuneTarget = await Tune.findByPk(tune_id);
+            const instrumentTarget = await Instrument.findByPk(instrument_id);
+            instrumentTarget.addTune(tuneTarget);
+            
+            res.status(200).json({ message: "Bien effectué"});
+        } catch(error) {
+            res.status(500).json({ message: "Erreur interne du serveur"});
+        }
+    },
+
+    removeTuneNotNeedingIt : async (req, res) => {
+        const instrument_id = req.params.id;
+        const { tune_id } = req.body;
+        try {
+            const tuneTarget = await Tune.findByPk(tune_id);
+            const instrumentTarget = await Instrument.findByPk(instrument_id);
+            instrumentTarget.removeTune(tuneTarget);
             
             res.status(200).json({ message: "Bien effectué"});
         } catch(error) {

@@ -5,8 +5,10 @@ const User = require('./User');
 const Style = require('./Style');
 const Band = require('./Band');
 const Costume = require('./Costume');
+const Mood = require('./Mood');
 
 const sequelize = require('./sequelize-client');
+
 
 /* USER */
 User.belongsToMany(SetList, {
@@ -14,7 +16,7 @@ User.belongsToMany(SetList, {
     foreignKey: 'user_id',
     as: 'creator_user'
 });
-User.hasOne(SetList, {
+User.hasMany(SetList, {
     as: 'leader_for_setlist',
     foreignKey: 'user_gig_leader_id'
 });
@@ -36,21 +38,28 @@ User.belongsToMany(Band, {
 });
 
 
+
 /* BAND */
 Band.belongsToMany(User, {
     through: 'User_is_in_a_band',
     foreignKey: 'band_id',
     otherKey: 'user_id'
 });
+Band.hasMany(Tune, { foreignKey: 'band_id' });
+
 
 
 /* COSTUME */
 Costume.hasMany(SetList, { foreignKey: "costume_id" });
 
 
+
 /* STYLE */
 Style.hasMany(Tune, { foreignKey: "style_id" });
 
+
+/* MOOD */
+Mood.hasMany(Tune, { foreignKey: "mood_id" });
 
 /* INSTRUMENT */
 Instrument.belongsToMany(User, {
@@ -58,9 +67,11 @@ Instrument.belongsToMany(User, {
     foreignKey: "instrument_id"
 });
 Instrument.belongsToMany(Tune, {
+    as: 'not_needed_instruments',
     through: 'tune_does_not_have_instrument',
     foreignKey: "instrument_id"
 });
+
 
 
 /* SETLIST */
@@ -82,6 +93,7 @@ SetList.belongsToMany(Tune, {
     as: "tunes"});
 
 
+
 /* TUNE */
 Tune.belongsToMany(SetList, {
     through: 'Setlist_list_of_tunes',
@@ -89,11 +101,29 @@ Tune.belongsToMany(SetList, {
     as: "setlist"
 });
 Tune.belongsToMany(Instrument, {
+    as: 'not_needed_instruments',
     through: 'tune_does_not_have_instrument',
     foreignKey: "tune_id"
 });
 Tune.belongsTo(Style, {
     foreignKey: "style_id"
 });
+Tune.belongsTo(Mood, {
+    foreignKey: "mood_id"
+});
+Tune.belongsTo(Band, {
+    foreignKey: 'band_id'
+});
 
-module.exports = { User, User_is_in_a_band, Band, Costume, Tune, SetList, Instrument, Style };
+
+module.exports = {
+    User,
+    User_is_in_a_band,
+    Band,
+    Costume,
+    Tune,
+    SetList,
+    Instrument,
+    Style,
+    Mood
+};

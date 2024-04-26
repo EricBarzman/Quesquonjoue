@@ -10,7 +10,18 @@ const userController = {
 
     getAll: async (req, res) => {
         try {
-            const users = await User.findAll({ include: [Band, Instrument] });
+            const users = await User.findAll({
+                // include: [
+                //     {
+                //         model: Instrument,
+                //         through: { attributes: [] }
+                //     },
+                //     {
+                //         model: Band,
+                //         through: { attributes: [] }
+                //     }
+                // ]
+            });
             res.status(200).json(users);
         } catch(error) {
             res.status(500).json({ message: "Erreur interne du serveur"});
@@ -20,8 +31,18 @@ const userController = {
     getOne: async (req, res) => {
         try {
             const id = req.params.id;
-            const user = await User.findByPk(id, {
-                include: [Band, Instrument]
+            const user = await User.findOne({
+                where : { id: id },
+                include: [
+                    {
+                        model: Instrument,
+                        through: { attributes: [] }
+                    },
+                    {
+                        model: Band,
+                        through: { attributes: [] }
+                    }
+                ]
             });
             res.status(200).json(user);
         } catch(error) {
@@ -71,8 +92,10 @@ const userController = {
         const { username, mail, password, avatar_path, band_id, addOrRemoveBand } = req.body;
         const user_id = req.params.id;
         try {
-            const userToEdit = await User.findByPk(user_id);
-            if (!userToEdit)
+            const userToEdit = await User.findOne({
+                where: { id: user_id}
+            });
+            if (userToEdit === null)
                 return res.status(404).json({ message : `Aucun user trouvé avec l'ID ${id}`})
 
             // Update regular properties
@@ -109,8 +132,10 @@ const userController = {
     deleteOne: async (req, res) => {
         const id = req.params.id;
         try {
-            const userToRemove = await User.findByPk(id);
-            if (!userToRemove)
+            const userToRemove = await User.findOne({
+                where: { id : id }
+            });
+            if (userToEdit === null)
                 return res.status(404).json({ message : `Aucun user trouvé avec l'ID ${id}`});
             
             userToRemove.destroy();

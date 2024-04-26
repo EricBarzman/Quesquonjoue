@@ -76,6 +76,7 @@ CREATE TABLE IF NOT EXISTS costumes (
 CREATE TABLE IF NOT EXISTS tunes (
     id INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(255),
+    band_id INT,
     duration TIME,
     date DATETIME,
     place VARCHAR(255),
@@ -88,12 +89,14 @@ CREATE TABLE IF NOT EXISTS tunes (
     updated_at TIMESTAMP,
     PRIMARY KEY(id),
     FOREIGN KEY (style_id) REFERENCES styles(id),
-    FOREIGN KEY (mood_id) REFERENCES moods(id)
+    FOREIGN KEY (mood_id) REFERENCES moods(id),
+    FOREIGN KEY (band_id) REFERENCES bands(id)
 );
 
 CREATE TABLE IF NOT EXISTS setlists (
     id INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(255),
+    band_id INT,
     duration TIME,
     costume_id INT,
     user_gig_leader_id INT,
@@ -101,7 +104,8 @@ CREATE TABLE IF NOT EXISTS setlists (
     updated_at TIMESTAMP,
     PRIMARY KEY(id),
     FOREIGN KEY (user_gig_leader_id) REFERENCES users(pk),
-    FOREIGN KEY (costume_id) REFERENCES costumes(id)
+    FOREIGN KEY (costume_id) REFERENCES costumes(id),
+    FOREIGN KEY (band_id) REFERENCES bands(id)
 );
 
 CREATE TABLE IF NOT EXISTS user_has_instrument (
