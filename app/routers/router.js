@@ -5,6 +5,7 @@ const costumeController = require('../controllers/costumeController');
 const userController = require('../controllers/userController');
 const tuneController = require('../controllers/tuneController');
 const moodController = require('../controllers/moodController');
+const setlistController = require('../controllers/setlistController');
 
 const express = require('express');
 const router = express.Router();
@@ -77,5 +78,10 @@ router.patch('/tunes/:id', tuneController.updateOne);
 router.delete('/tunes/:id', tuneController.deleteOne);
 
 /* SETLISTS */
+router.get('/setlists/', setlistController.getAll);
+router.get('/setlists/:id', setlistController.getOne);
+router.post('/setlists/', setlistController.createOne);
+router.patch('/setlists/:id', setlistController.updateOne);
+router.delete('/setlists/:id', setlistController.deleteOne);
 
 module.exports = router;

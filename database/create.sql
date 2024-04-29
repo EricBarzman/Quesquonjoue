@@ -98,12 +98,16 @@ CREATE TABLE IF NOT EXISTS setlists (
     title VARCHAR(255),
     band_id INT,
     duration TIME,
+    date DATETIME,
+    place VARCHAR(255),
     costume_id INT,
+    user_creator_id INT,
     user_gig_leader_id INT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
     PRIMARY KEY(id),
     FOREIGN KEY (user_gig_leader_id) REFERENCES users(pk),
+    FOREIGN KEY (user_creator_id) REFERENCES users(pk),
     FOREIGN KEY (costume_id) REFERENCES costumes(id),
     FOREIGN KEY (band_id) REFERENCES bands(id)
 );

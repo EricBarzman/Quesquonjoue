@@ -1,5 +1,4 @@
-const { Tune, Instrument, Band, Mood } = require('../models/index');
-const { Style } = require('../models/index');
+const { Tune, Instrument, Band, Mood, Style, SetList } = require('../models/index');
 
 const tuneController = {
 
@@ -27,6 +26,12 @@ const tuneController = {
                         through: {
                             attributes: []
                         }
+                    },
+                    {
+                        model: SetList,
+                        as: 'setlist',
+                        attributes: ['id', 'title', 'duration'],
+                        through : { attributes : [] }
                     }
                 ]
             });

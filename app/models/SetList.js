@@ -10,7 +10,7 @@ SetList.init({
     },
     duration: {
         type: DataTypes.TIME,
-        allowNull: false
+        allowNull: true
     },
     date: {
         type: DataTypes.DATE,

@@ -6,18 +6,18 @@ const Style = require('./Style');
 const Band = require('./Band');
 const Costume = require('./Costume');
 const Mood = require('./Mood');
+const Setlist_list_of_tunes = require('./Setlist_list_of_tunes')
 
 const sequelize = require('./sequelize-client');
 
 
 /* USER */
-User.belongsToMany(SetList, {
-    through: 'user_creates_setlist',
-    foreignKey: 'user_id',
+User.hasMany(SetList, {
+    foreignKey: 'user_creator_id',
     as: 'creator_user'
 });
 User.hasMany(SetList, {
-    as: 'leader_for_setlist',
+    as: 'gig_leader',
     foreignKey: 'user_gig_leader_id'
 });
 User.belongsToMany(Instrument, {
@@ -46,7 +46,7 @@ Band.belongsToMany(User, {
     otherKey: 'user_id'
 });
 Band.hasMany(Tune, { foreignKey: 'band_id' });
-
+Band.hasMany(SetList, { foreignKey: 'band_id' });
 
 
 /* COSTUME */
@@ -61,13 +61,14 @@ Style.hasMany(Tune, { foreignKey: "style_id" });
 /* MOOD */
 Mood.hasMany(Tune, { foreignKey: "mood_id" });
 
+
 /* INSTRUMENT */
 Instrument.belongsToMany(User, {
     through: 'user_has_instrument',
     foreignKey: "instrument_id"
 });
 Instrument.belongsToMany(Tune, {
-    as: 'not_needed_instruments',
+    as: 'is_not_needed_for',
     through: 'tune_does_not_have_instrument',
     foreignKey: "instrument_id"
 });
@@ -75,29 +76,31 @@ Instrument.belongsToMany(Tune, {
 
 
 /* SETLIST */
-SetList.belongsToMany(User, {
-    through: 'user_creates_setlist',
-    foreignKey: 'setlist_id'
+SetList.belongsTo(User, {
+    foreignKey: 'user_creator_id',
+    as: 'creator_user'
 });
 SetList.belongsTo(User, {
     as : 'gig_leader',
     foreignKey: 'user_gig_leader_id'
 });
 SetList.belongsTo(Costume, {
-    as : "costume",
     foreignKey: 'costume_id'
 });
 SetList.belongsToMany(Tune, {
-    through: 'Setlist_list_of_tunes',
-    foreignKey: "setlist_id",
-    as: "tunes"});
-
+    through: Setlist_list_of_tunes,
+    foreignKey: 'setlist_id',
+    as: "tunes"
+});
+SetList.belongsTo(Band, {
+    foreignKey: 'band_id'
+});
 
 
 /* TUNE */
 Tune.belongsToMany(SetList, {
-    through: 'Setlist_list_of_tunes',
-    foreignKey: "setlist_id",
+    through: Setlist_list_of_tunes,
+    foreignKey: "tune_id",
     as: "setlist"
 });
 Tune.belongsToMany(Instrument, {

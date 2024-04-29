@@ -4,7 +4,7 @@ const instrumentController = {
 
     getAllInstruments: async (req, res) => {
         try {
-            const instruments = await Instrument.findAll({ include: User});
+            const instruments = await Instrument.findAll();
             res.status(200).json(instruments);
 
         } catch(error) {
@@ -15,7 +15,17 @@ const instrumentController = {
     getOneInstrument: async (req, res) => {
         try {
             const id = req.params.id;
-            const instrument = await Instrument.findByPk(id, { include: User });
+            const instrument = await Instrument.findByPk(id, {
+                include: [
+                    User,
+                    {
+                        model: Tune,
+                        as: 'is_not_needed_for',
+                        attributes: ['id', 'title'],
+                        through : { attributes : [] }
+                    }
+                ]
+            });
             
             if (!instrument)
                 return res.status(404).json({ message: `L'instrument avec l'id ${id} n'a pas été trouvé`})
