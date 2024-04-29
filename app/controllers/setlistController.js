@@ -141,7 +141,6 @@ const setlistController = {
             res.status(500).json({ message: "Erreur interne du serveur"});
         }
     },
-
 }
 
 module.exports = setlistController;
