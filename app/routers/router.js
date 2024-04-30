@@ -22,7 +22,7 @@ router.post('/users/', userController.signIn);
 router.post('/login/', userController.logIn);
 
 
-router.get('/users/', auth, admin, userController.getAll);
+router.get('/users/', userController.getAll);
 router.get('/users/:id', userController.getOne);
 router.patch('/users/:id', auth, userController.updateOne);
 router.delete('/users/:id', auth, userController.deleteOne);
@@ -107,7 +107,7 @@ router.delete('/tunes/:id', auth, tuneController.deleteOne);
 
 /* SETLISTS */
 
-router.get('/setlists/', auth, admin, setlistController.getAll);
+router.get('/setlists/', setlistController.getAll);
 router.get('/setlists/:id', setlistController.getOne);
 router.post('/setlists/', auth, setlistController.createOne);
 router.patch('/setlists/:id', auth, setlistController.updateOne);

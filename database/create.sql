@@ -100,7 +100,6 @@ CREATE TABLE IF NOT EXISTS setlists (
     date DATETIME,
     place VARCHAR(255),
     costume_id INT,
-    user_creator_id INT,
     user_gig_leader_id INT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,

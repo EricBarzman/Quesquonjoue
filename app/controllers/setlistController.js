@@ -23,11 +23,6 @@ const setlistController = {
                     Costume,
                     {
                         model: User,
-                        as: 'creator_user',
-                        attributes: ['id', 'username', 'mail', 'avatar_path']
-                    },
-                    {
-                        model: User,
                         as: 'gig_leader',
                         attributes: ['id', 'username', 'mail', 'avatar_path']
                     },
@@ -56,7 +51,6 @@ const setlistController = {
             place,
             date,
             user_gig_leader_id,
-            user_creator_id,
             list_of_tunes
         } = req.body;
 
@@ -67,7 +61,6 @@ const setlistController = {
             if (place) newSetlist.place = place;
             if (date) newSetlist.date = date;
             if (user_gig_leader_id) newSetlist.user_gig_leader_id = user_gig_leader_id;
-            if (user_creator_id) newSetlist.user_creator_id = user_creator_id;
             
             // List of tunes
             list_of_tunes.forEach(async tune => {
@@ -95,7 +88,6 @@ const setlistController = {
             place,
             date,
             user_gig_leader_id,
-            user_creator_id,
             list_of_tunes
         } = req.body;
 
@@ -111,7 +103,6 @@ const setlistController = {
             if (date) setlist.date = date;
             if (costume_id) setlist.costume_id = costume_id;
             if (user_gig_leader_id) setlist.user_gig_leader_id = user_gig_leader_id;
-            if (user_creator_id) setlist.user_creator_id = user_creator_id;
             
             // List of tunes
             list_of_tunes.forEach(async tune => {

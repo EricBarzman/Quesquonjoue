@@ -13,10 +13,6 @@ const sequelize = require('./sequelize-client');
 
 /* USER */
 User.hasMany(SetList, {
-    foreignKey: 'user_creator_id',
-    as: 'creator_user'
-});
-User.hasMany(SetList, {
     as: 'gig_leader',
     foreignKey: 'user_gig_leader_id'
 });
@@ -76,10 +72,6 @@ Instrument.belongsToMany(Tune, {
 
 
 /* SETLIST */
-SetList.belongsTo(User, {
-    foreignKey: 'user_creator_id',
-    as: 'creator_user'
-});
 SetList.belongsTo(User, {
     as : 'gig_leader',
     foreignKey: 'user_gig_leader_id'
