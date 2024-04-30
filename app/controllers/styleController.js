@@ -1,4 +1,4 @@
-const { Style } = require('../models/index');
+const { Style, Tune } = require('../models/index');
 
 const styleController = {
 
@@ -14,7 +14,12 @@ const styleController = {
     getOne: async (req, res) => {
         try {
             const id = req.params.id;
-            const style = await Style.findByPk(id);
+            const style = await Style.findByPk(id, {
+                include: {
+                    model: Tune,
+                    attributes: ['id', 'title']
+                }
+            });
             
             if (!style)
                 return res.status(404).json({ message: `Le style avec l'id ${id} n'a pas été trouvé`})

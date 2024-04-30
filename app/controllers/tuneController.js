@@ -105,6 +105,7 @@ const tuneController = {
             if (duration) tuneToEdit.duration = duration;
             if (place) tuneToEdit.place = place;
             if (date) tuneToEdit.date = date;
+            if (band_id) tuneToEdit.band_id = band_id;
             if (typeof has_solo !== 'undefined') tuneToEdit.has_solo = has_solo;
             if (typeof is_tiresome !== 'undefined') tuneToEdit.is_tiresome = is_tiresome;
             if (partition_path) tuneToEdit.partition_path = partition_path;

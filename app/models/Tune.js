@@ -16,16 +16,8 @@ Tune.init({
         type: DataTypes.BOOLEAN,
         allowNull: true
     },
-    date: {
-        type: DataTypes.DATE,
-        allowNull: true
-    },
     is_tiresome: {
         type: DataTypes.BOOLEAN,
-        allowNull: true
-    },
-    place : {
-        type: DataTypes.STRING,
         allowNull: true
     },
     partition_path : {

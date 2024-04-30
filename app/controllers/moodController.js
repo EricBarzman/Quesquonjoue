@@ -1,4 +1,4 @@
-const { Mood } = require('../models/index');
+const { Mood, Tune } = require('../models/index');
 
 const moodController = {
 
@@ -14,7 +14,12 @@ const moodController = {
     getOne: async (req, res) => {
         try {
             const id = req.params.id;
-            const mood = await Mood.findByPk(id);
+            const mood = await Mood.findByPk(id, {
+                include: {
+                    model: Tune,
+                    attributes: ['id', 'title']
+                }
+            });
             
             if (!mood)
                 return res.status(404).json({ message: `Le mood avec l'id ${id} n'a pas été trouvé`})

@@ -1,4 +1,4 @@
-const { User, Band, Tune, Instrument, Style, Mood } = require('../models/index');
+const { User, Band, Tune, Instrument, Style, Mood, SetList } = require('../models/index');
 
 const bandController = {
 
@@ -23,7 +23,10 @@ const bandController = {
                             attributes: []
                         }
                     },
-                    Tune
+                    {
+                        model: SetList,
+                        attributes: ['id', 'title']
+                    }
                 ]
             });
             

@@ -35,7 +35,7 @@ const setlistController = {
                         model: Tune,
                         as: "tunes",
                         attributes: ['id', 'title'],
-                        through : { as: 'tune', attributes : ['position'] }
+                        through : { as: 'tune_position', attributes : ['position'] }
                     }
                 ]
             });

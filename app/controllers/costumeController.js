@@ -1,4 +1,4 @@
-const { Costume } = require('../models/index');
+const { Costume, SetList } = require('../models/index');
 
 const costumeController = {
 
@@ -14,7 +14,12 @@ const costumeController = {
     getOne: async (req, res) => {
         try {
             const id = req.params.id;
-            const costume = await Costume.findByPk(id);
+            const costume = await Costume.findByPk(id, {
+                include: {
+                    model: SetList,
+                    attributes: ['id', 'title']
+                }
+            });
             
             if (!costume)
                 return res.status(404).json({ message: `Le costume avec l'id ${id} n'a pas été trouvé`})

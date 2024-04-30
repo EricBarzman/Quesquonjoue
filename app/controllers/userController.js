@@ -87,6 +87,42 @@ const userController = {
             res.status(500).json({ message: "Erreur interne du serveur"});
         }
     },
+
+    logIn: async (req,res) => {
+        const { mail, password } = req.body;
+        try {
+            // Search for user
+            const foundUser = await User.findOne({ where : { mail: mail }});
+            if (!foundUser) {
+                return res.status(404).json({ message : "Aucun utilisateur avec cet email connu"})
+            }
+            // Check password
+            const hash = foundUser.password;
+            if (!(await bcrypt.compare(password, hash)))
+                return res.status(401).json({ message: "Mot de passe incorrect"})
+
+            // Prepare returned JSON with token
+            const jwtContent = {
+                user_id : foundUser.id,
+                role : foundUser.role
+            };
+            const jwtOptions = {
+                algorithm: "HS256",
+                expiresIn: "3h"
+            };
+
+            res.json({
+                username: foundUser.username,
+                mail: foundUser.mail,
+                role: foundUser.role,
+                avatar_path: foundUser.avatar_path,
+                token: jsonwebtoken.sign(jwtContent, jwtSecret, jwtOptions)
+            });
+
+        } catch (error) {
+            res.status(500).json({ message: "Erreur interne du serveur"});
+          }
+    },
     
     updateOne: async (req, res) => {
         const { username, mail, password, avatar_path, band_id, addOrRemoveBand } = req.body;
