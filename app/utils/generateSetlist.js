@@ -202,6 +202,6 @@ function fillSetlist(list, maxDuration, acceptedLimit) {
 //     return randomList;
 // }
 
-// console.log(generateSetlist(list, criteria, 20k))
+console.log(fillSetlist(list, 600, 20))
 
 // module.exports = generateSetlist;
