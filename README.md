@@ -1,6 +1,7 @@
 # Qu'est-ce qu'on joue ??
 
-Une application pour générer des setlists pour fanfares
+Une application pour générer des setlists pour fanfares.
+Ici, la partie back-end, un serveur livrant une API, codé en `Node.JS` avec `Express`.
 
 ## Installation
 
